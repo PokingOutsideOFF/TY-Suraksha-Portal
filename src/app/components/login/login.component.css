@@ -1,0 +1,16 @@
+.loginD{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+  }
+  mat-card {
+    max-width: 400px;
+    margin: 2em auto;
+    text-align: center;
+    background-color:aliceblue;
+  }
+  .signin-content {
+    margin: 20px;
+    padding: 60px 1rem;
+  }
