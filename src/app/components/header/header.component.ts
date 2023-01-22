@@ -18,9 +18,10 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogging(): void{
-    fetch('/logout', {method: 'GET'})
-        .then(response => response.text)
-        .then(text => console.log(text))
+    // fetch('/logout', {method: 'GET'})
+    //     .then(response => response.text)
+    //     .then(text => console.log(text))
+    console.log("In logout method.");
     this.router.navigate(['/'], {replaceUrl: true});
   }
 

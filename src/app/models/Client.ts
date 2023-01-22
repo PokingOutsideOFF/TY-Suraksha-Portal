@@ -3,4 +3,5 @@ export interface client{
     name: String,
     imageURL: String,
     uploaded: Date,
+    status: String,
 }

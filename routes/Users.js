@@ -8,12 +8,16 @@ const MongodbStore = require('connect-mongo');
 const mongoose = require('mongoose');
 //const flash = require('connect-flash');
 const multer = require('multer');
+//const { RouterEvent, RouterState } = require('@angular/router');
 //const path = require('path');
 const databaseURL1 = 'mongodb+srv://prat:root@cluster0.97zl4br.mongodb.net/userinfo?retryWrites=true&w=majority';
 const databaseURL2 = 'mongodb+srv://prat:root@cluster0.97zl4br.mongodb.net/clientinfo?retryWrites=true&w=majority';
 
 const conn1 = mongoose.createConnection(databaseURL1);
 const conn2 = mongoose.createConnection(databaseURL2);
+var insuranceco = new String();
+var type = new String();
+var access1 = 0;
 
 router.use("/Clientimages", express.static("Clientimages"));
 
@@ -24,6 +28,8 @@ var storage = multer.diskStorage({
     filename: (req, file, cb) => {
         const name = file.originalname.toLowerCase().split(' ').join('_');
         //const name = file.originalname;
+        console.log("Filetype" + file.mimetype);
+        type = file.mimetype;
         cb(null, name);
     }
 })
@@ -55,16 +61,21 @@ router.get('/', (req, res, next) => {
 
 router.post('/', async (req, res) => {
     user = conn1.model('information', userSchema);
-    user1 = await user.find({username: req.body.username, access: req.body.access, password: req.body.password});
+    if (req.body.access != 3) user1 = await user.find({username: req.body.username, access: req.body.access, password: req.body.password});
+    else user1 = await user.find({username: req.body.username, access: req.body.access, password: req.body.password, insuranceco: req.body.insuranceco});
+    //console.log(user1);
+    //console.log(req.body.insuranceco);
     if (!user1.length){
-        req.flash("Incorrect credentials.");
+        //req.flash("Incorrect credentials.");
         res.json(0);
     }
     else{
         session1 = req.session;
         session1.username = req.body.username;
         res.json(1);
-
+        insuranceco = req.body.insuranceco;
+        console.log(insuranceco);
+        access1 = req.body.access;
     }
 });
 
@@ -100,6 +111,64 @@ router.post('/healthcaredisplay', async(req, res) => {
         res.json(client1);
     }
 });
+
+router.get('/displaynotforwarded', async(req, res) => {
+    client = conn2.model('cinformation', clientSchema);
+    client2 = await client.find({status: "Not forwarded.", Insurance_compnay: insuranceco});
+    res.json(client2);
+})
+
+router.post('/updateone', async(req, res) => {
+    client = conn2.model('cinformation', clientSchema);
+    client.findByIdAndUpdate(req.body.id, {status: "Forwarded"}, {new: 'true'}, function(err, doc){
+        if (err){
+            res.json(0);
+        }
+        //res.json(doc);
+        res.json(1);
+    })
+})
+
+router.get('/displayforwarded', async(req, res) => {
+    client = conn2.model('cinformation', clientSchema);
+    if (access1 == 3) client2 = await client.find({status: "Forwarded", Insurance_company: insuranceco});
+    else client2 = await client.find({status: "Forwarded"});
+    res.json(client2);
+})
+
+router.post('/updateinsurance', async(req, res) => {
+    client = conn2.model('cinformation', clientSchema);
+    // if (req.body.status="Accepted"){
+    // client.findByIdAndUpdate(req.body.id, {status: req.body.status}, {new: 'true'}, function(err, doc){
+    //     console.log(err);
+    //     console.log(doc);
+    //     if (err) res.json(0);
+    //     else res.json(1);
+    // })}
+    // else{
+    //     client.findByIdAndUpdate(req.body.id, {status: req.body.status}, {remittance_advice: req.body.RA},{new: 'true'}, function(err, doc){
+    //         if (err) res.json(0);
+    //         else res.json(1);
+    //     })
+    // }
+    console.log(req.body.id);
+    client.findByIdAndUpdate(req.body.id, {status: req.body.status, remittance_advice: req.body.RA}, {new:'true'}, function(err, doc){
+        if (err) res.json(0);
+        else res.json(1);
+    })
+})
+
+router.get('/accepted', async(req, res)=>{
+    client = conn2.model('cinformation', clientSchema);
+    client2 = await client.find({status: "Accepted", Insurance_company: insuranceco});
+    res.json(client2);
+})
+
+router.get('/rejected', async(req, res)=> {
+    client = conn2.model('cinformation', clientSchema);
+    client2 = await client.find({status: "Rejected", Insurance_company: insuranceco});
+    res.json(client2);
+})
 
 router.get('/logout', async (req, res) => {
     console.log("In logout method");

@@ -26,6 +26,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ValidatorService } from './services/validator.service';
@@ -36,6 +37,7 @@ import { SomeSharedService } from './globals';
 import { HealthcareComponent } from './components/healthcare/healthcare.component';
 import { PostofficeComponent } from './components/postoffice/postoffice.component';
 import { InsuranceComponent } from './components/insurance/insurance.component';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { InsuranceComponent } from './components/insurance/insurance.component';
     HealthcareComponent,
     PostofficeComponent,
     InsuranceComponent,
+    SafePipe,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +74,7 @@ import { InsuranceComponent } from './components/insurance/insurance.component';
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
+    MatCheckboxModule,
   ],
   providers: [ValidatorService, SomeSharedService],
   bootstrap: [AppComponent]

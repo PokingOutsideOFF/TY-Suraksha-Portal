@@ -1,1 +1,36 @@
-<p>postoffice works!</p>
+<app-header></app-header>
+<mat-radio-group [(ngModel)]="selectedValue">
+    <mat-radio-button [value]="0">Not forwarded requests</mat-radio-button>
+    <mat-radio-button [value]="1">Forwarded requests</mat-radio-button>
+    <mat-radio-button [value]="2">Recieved requests</mat-radio-button>
+</mat-radio-group>
+
+<div *ngIf="selectedValue == 0">
+    <div *ngFor="let client of nfClients; let i=index">     
+    <!-- <p>{{client.status}}</p> -->
+    <p id="token">{{client._id}}</p>
+    <p>{{client.name}}</p>
+    <p>{{client.Insurance_company}}</p>
+    <mat-checkbox (change)="checkVal(i)">Forward this request</mat-checkbox>
+    <hr>
+    </div>
+</div>
+
+<div *ngIf="selectedValue == 1">
+    <div *ngFor="let client of fClients;">
+        <p>{{client._id}}</p>
+        <p>{{client.name}}</p>
+        <p>{{client.Insurance_company}}</p>
+        <hr>
+    </div>
+</div>
+
+<!-- <form [formGroup]="tokenid" (ngSubmit)="updateStatus()">
+    <label for="mongoid">Enter id of request you want to forward:</label>
+    <input type="text" formControlName="uniquetoken" id="mongoid">
+    <input type="submit" value="Submit">
+</form>
+
+<div *ngIf="passed==true">
+    <p>Request submitted successfully.</p>
+</div> -->

@@ -5,4 +5,5 @@ import { Injectable } from '@angular/core'
 })
 export class SomeSharedService {
   public globalVar = '';
+  public insuranceco: any;
 }

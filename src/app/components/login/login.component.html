@@ -10,7 +10,7 @@
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label>Select user access</mat-label>
-                    <mat-select formControlName="access" required> <!--(selectionChange)="selected($event)"-->
+                    <mat-select formControlName="access" (selectionChange)="selected($event)" required> <!--(selectionChange)="selected($event)"-->
                         <mat-option value="one">Healthcare</mat-option>
                         <mat-option value="two">Post Office</mat-option>
                         <mat-option value="three">Insurance Company</mat-option>
@@ -19,6 +19,10 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Password </mat-label>
                     <input matInput type="password" formControlName="password" name="password">
+                </mat-form-field><br>
+                <mat-form-field appearance="fill" *ngIf="access == 'three'">
+                    <mat-label>Insurance Agency </mat-label>
+                    <input matInput type="text" formControlName="insuranceco" name="insuranceco" required>
                 </mat-form-field><br>
                 <button mat-raised-button color="primary" type="submit" style="margin-bottom:20px" [disabled]="!loginInfo.valid">Login</button>
             </form>
