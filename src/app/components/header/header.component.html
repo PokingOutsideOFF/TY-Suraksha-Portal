@@ -1,8 +1,8 @@
 <link href="/dist/styles.css" rel="stylesheet">
 <mat-toolbar class="head"> <!--color="primary"-->
-    <img src="{{imageSrc}}" alt="{{imageAlt}}" class="w-20 p-3" />
-    <h1>Suraksha Portal</h1>
-    <button id="logout1" class="bg-rose-600 rounded-3xl p-4 m-3 text-sm" (click)="onLogging()">Logout</button> <!--(click)="onLogging()"-->
+    <img src="{{imageSrc}}" alt="{{imageAlt}}" class="w-10" />
+    <p>Suraksha Portal</p>
+    <button id="logout1"   (click)="onLogging()">Logout</button> <!--(click)="onLogging()"-->
 </mat-toolbar>
 
 <mat-toolbar class="nav">
@@ -11,8 +11,9 @@
         <mat-list-item *ngIf="sharedService.globalVar == '2'" routerLink="/postoffice" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Post Office</mat-list-item>
         <mat-list-item *ngIf="sharedService.globalVar == '3'" routerLink="/insurance" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Insurance Company</mat-list-item>
         <mat-list-item routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Analysis</mat-list-item>
-</mat-toolbar>
-
+        
+    </mat-toolbar>
+<hr>
 <!-- <script>
     //const button1 = document.getElementById("logout1");
     //button1.addEventListener('click', function() {
@@ -22,3 +23,5 @@
         .then(text => console.log(text))
     }
 </script> -->
+
+<!-- class="bg-rose-600 rounded-3xl p-4  text-sm text-white" -->

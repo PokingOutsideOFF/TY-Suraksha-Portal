@@ -3,6 +3,7 @@
     <mat-card>
         <mat-card-content>
             <p style="font-size: 25px; margin:20px 0px">Login</p>
+            <p *ngIf="result === 0" style="font-weight: 600;">Enter valid user id and password</p>
             <form [formGroup]="loginInfo" (ngSubmit)="onSubmit()" method="post" action="/">
                 <mat-form-field appearance="fill">
                     <mat-label>User ID</mat-label>

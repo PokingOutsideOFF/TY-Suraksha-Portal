@@ -14,7 +14,7 @@ import { SomeSharedService } from 'src/app/globals';
 
 export class LoginComponent implements OnInit {
   //private formSubmitAttempt: boolean;
-  private result: Number | undefined;
+  result: Number | undefined;
   user!: User;
   sendData: any;
   //formData: any = new FormData();
@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit {
       console.log("Result" + this.result);
       if (this.result == 0){
         this.router.navigate(['/']);
+        
         this.loginInfo.reset();
       }
       else{

@@ -1,55 +1,73 @@
 <app-header></app-header>
-<mat-radio-group [(ngModel)]="selectedValue">
+
+<!-- <mat-radio-group [(ngModel)]="selectedValue">
     <mat-radio-button [value]="0">Forwarded requests</mat-radio-button>
     <mat-radio-button [value]="1">Accepted requests</mat-radio-button>
     <mat-radio-button [value]="2">Rejected requests</mat-radio-button>
-</mat-radio-group>
+</mat-radio-group> -->
+<div class="full">
+    <button class="opt" (click)="toggleDisplayDiv(1)">Forwarded Requests</button>
+    <button class="opt" (click)="toggleDisplayDiv(2)">Accepted Requests</button>
+    <button class="opt" (click)="toggleDisplayDiv(3)">Rejected Requests</button><br>
 
-<div *ngIf="selectedValue == 0">
-    <div *ngFor="let client of fClients; let i=index">
-        <p>{{client._id}}</p>
-        <p>{{client.name}}</p>
-        <!-- <img src="{{client.filepath}}" width="50px" height="50px"> -->
-        <iframe [src]="client.filepath | safe" width="1000px" height="1000px"></iframe>
-        <!-- <mat-radio-group [(ngModel)]="value">
-            <mat-radio-button [value]="0" (change)="changeStatus(i)">Accept the request</mat-radio-button>
-            <mat-radio-button [value]="1">Reject the request</mat-radio-button>
-        </mat-radio-group>
-        <div *ngIf="value == 1">
-            <form [formGroup]="statusUpdate" (submit)="changeStatus(i)" method="post">     
-            <label for="ra">Please enter Remittance Advice:</label>
-            <input type="text" id="ra" formControlName="rAdvice" required>
-            <input type="submit" value="Submit">
-            </form> -->
-            <!-- <label for="ra">Please enter Remittance Advice:</label>
-            <input type="text" id="ra" required>
-            <button (click)="changeStatus(i)">Submit</button>
-        </div> -->
-        <hr>
-    </div>
-    <form [formGroup]="statusUpdate" (submit)="changeStatus()" method="post" enctype="multipart/form-data">
-        <label for="tokenid">Enter token of the request to be updated:</label>
-        <input type="text" formControlName="token" id="tokenid">
-        <label for="stat">Please enter whether request is Accepted or Rejected:</label>
-        <input type="text" formControlName="status" id="stat">     
-        <label for="ra">If rejected, please enter Remittance Advice else write N/A:</label>
-        <input type="text" id="ra" formControlName="rAdvice" required>
-        <input type="submit" value="Submit">
-    </form>    
-</div>
+    <mat-card>
+        <mat-card-content>
+            <div *ngIf="isShowDiv === 0">
+                <p class="noOption">Please choose an option</p>
+            </div>
 
-<div *ngIf="selectedValue == 1">
-    <div *ngFor="let client1 of aClients;">
-        <p>{{client1._id}}</p>
-        <p>{{client1.name}}</p>
-        <hr>
-    </div>
-</div>
-
-<div *ngIf="selectedValue == 2">
-    <div *ngFor="let client1 of rClients;">
-        <p>{{client1._id}}</p>
-        <p>{{client1.name}}</p>
-        <hr>
-    </div>
+            <div *ngIf="isShowDiv == 1">
+                <div *ngFor="let client of fClients; let i=index">
+                    <p>{{client._id}}</p>
+                    <p>{{client.name}}</p>
+                    <!-- <img src="{{client.filepath}}" width="50px" height="50px"> -->
+                    <iframe [src]="client.filepath | safe" width="1000px" height="1000px"></iframe>
+                    <!-- <mat-radio-group [(ngModel)]="value">
+                        <mat-radio-button [value]="0" (change)="changeStatus(i)">Accept the request</mat-radio-button>
+                        <mat-radio-button [value]="1">Reject the request</mat-radio-button>
+                    </mat-radio-group>
+                    <div *ngIf="value == 1">
+                        <form [formGroup]="statusUpdate" (submit)="changeStatus(i)" method="post">     
+                            <label for="ra">Please enter Remittance Advice:</label>
+                            <input type="text" id="ra" formControlName="rAdvice" required>
+                            <input type="submit" value="Submit">
+                        </form> -->
+                        <!-- <label for="ra">Please enter Remittance Advice:</label>
+                            <input type="text" id="ra" required>
+                            <button (click)="changeStatus(i)">Submit</button>
+                        </div> -->
+                        <hr>
+                    </div>
+                    <form [formGroup]="statusUpdate" (submit)="changeStatus()" method="post" enctype="multipart/form-data">
+                        <label for="tokenid">Enter token of the request to be updated:</label>
+                            <input type="text" formControlName="token" id="tokenid"><br>
+                        <label for="stat">Please enter whether request is Accepted or Rejected:</label>
+                            <input type="text" formControlName="status" id="stat"><br>     
+                        <label for="ra">If rejected, please enter Remittance Advice else write N/A:</label>
+                            <input type="text" id="ra" formControlName="rAdvice" required><br>
+                        <button mat-stroked-button type="submit" [disabled]="!statusUpdate.valid" class="submitButton">Submit</button>
+                    </form>    
+                </div>
+                
+                <div *ngIf="isShowDiv == 2 ">
+                    <div *ngFor="let client1 of aClients;">
+                        <p>{{client1._id}}</p>
+                        <p>{{client1.name}}</p>
+                        <p>Nothing to see here</p>
+                        <hr>
+                    </div>
+                    <div *ngIf="aClients == 0"><p class="noOption">Nothing to see here</p></div>
+                </div>
+                
+                <div *ngIf="isShowDiv == 3">
+                    <div *ngFor="let client1 of rClients;">
+                        <p>{{client1._id}}</p>
+                        <p>{{client1.name}}</p>
+                        <hr>
+                    </div>
+                    <div *ngIf="rClients == 0"><p class="noOption">Nothing to see here</p></div>
+                </div>
+            </mat-card-content>
+    </mat-card>
+    
 </div>

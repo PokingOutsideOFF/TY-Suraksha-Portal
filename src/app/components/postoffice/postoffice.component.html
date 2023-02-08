@@ -1,30 +1,48 @@
 <app-header></app-header>
-<mat-radio-group [(ngModel)]="selectedValue">
-    <mat-radio-button [value]="0">Not forwarded requests</mat-radio-button>
-    <mat-radio-button [value]="1">Forwarded requests</mat-radio-button>
-    <mat-radio-button [value]="2">Recieved requests</mat-radio-button>
-</mat-radio-group>
+<div class="full">
 
-<div *ngIf="selectedValue == 0">
-    <div *ngFor="let client of nfClients; let i=index">     
-    <!-- <p>{{client.status}}</p> -->
-    <p id="token">{{client._id}}</p>
-    <p>{{client.name}}</p>
-    <p>{{client.Insurance_company}}</p>
-    <mat-checkbox (change)="checkVal(i)">Forward this request</mat-checkbox>
-    <hr>
-    </div>
+    <!-- <mat-radio-group [(ngModel)]="selectedValue">
+        <mat-radio-button [value]="0">Not forwarded requests</mat-radio-button>
+        <mat-radio-button [value]="1">Forwarded requests</mat-radio-button>
+        <mat-radio-button [value]="2">Recieved requests</mat-radio-button>
+    </mat-radio-group> -->
+    <button class="opt" (click)="toggleDisplayDiv(1)">Pending Requests</button>
+    <button class="opt" (click)="toggleDisplayDiv(2)">Forwarded Requests</button>
+    <button class="opt" (click)="toggleDisplayDiv(3)">Received Requests</button><br>
+    <mat-card>
+        <mat-card-content>
+            <div *ngIf="isShowDiv === 0">
+                <p class="noOption">Please choose an option</p>
+            </div>
+        
+            <div *ngIf="isShowDiv == 1">
+                <div *ngFor="let client of nfClients; let i=index">     
+                <!-- <p>{{client.status}}</p> -->
+                    <p id="token">{{client._id}}</p>
+                    <p>{{client.name}}</p>
+                    <p>{{client.Insurance_company}}</p>
+                    <mat-checkbox (change)="checkVal(i)">Forward this request</mat-checkbox>
+                    <hr>
+                </div>
+            </div>
+        
+            <div *ngIf="isShowDiv == 2">
+                <div *ngFor="let client of fClients;">
+                    <p>{{client._id}}</p>
+                    <p>{{client.name}}</p>
+                    <p>{{client.Insurance_company}}</p>
+                    <hr>
+                </div>
+                <div *ngIf="fClients == 0"><p class="noOption">Nothing to see here</p></div>
+            </div>
+
+            <div *ngIf="isShowDiv == 3">
+                <p class="noOption">Nothing yet</p>
+            </div>
+        </mat-card-content>
+    </mat-card>
 </div>
-
-<div *ngIf="selectedValue == 1">
-    <div *ngFor="let client of fClients;">
-        <p>{{client._id}}</p>
-        <p>{{client.name}}</p>
-        <p>{{client.Insurance_company}}</p>
-        <hr>
-    </div>
-</div>
-
+    
 <!-- <form [formGroup]="tokenid" (ngSubmit)="updateStatus()">
     <label for="mongoid">Enter id of request you want to forward:</label>
     <input type="text" formControlName="uniquetoken" id="mongoid">

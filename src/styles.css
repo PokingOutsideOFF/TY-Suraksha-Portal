@@ -14,9 +14,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .nav{
   display: flex;
-  margin:0 auto;
+  margin:0 ;
   height: 50px;
   background-color: #0C8CE9;
+  border-bottom: 1px solid rgb(227, 232, 244);
 }
 
 .mat-list-item{
@@ -24,6 +25,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   float: left;
   display:block;
   color: white;
+  margin: 0 ;
   text-align: center;
   padding: 10px 30px; 
   padding-right: 187px ;

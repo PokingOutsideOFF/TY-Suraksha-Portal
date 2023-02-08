@@ -53,6 +53,24 @@ export class PostofficeComponent implements OnInit {
     }
   }
 
+  isShowDiv = 0
+  temp = 0
+
+  toggleDisplayDiv(a :number):void{
+    if(this.isShowDiv == a){
+      this.temp += 1
+    }
+    else{
+      this.temp = 0 
+    }
+    this.isShowDiv = a
+    //this.temp = a
+    if(this.temp > 0){
+      this.isShowDiv = 0
+      this.temp= 0
+    }
+  }
+
   // updateStatus(){
   //   var sending = {"id": this.tokenid.controls['uniquetoken'].value}
   //   this.clientservice.updateStatusfirst(sending).subscribe(res=>{

@@ -13,15 +13,14 @@ export class HealthcareComponent implements OnInit {
   formdata = new FormData();
   file!: File;
   returnedinfo: any = {};
+  isShowDiv = 0
+  temp = 0
   public dataloaded!: boolean;
-  type: any;
-  fileerror!:boolean;
 
   constructor(private fb: FormBuilder, private clientservice: ClienthealthcareService) { }
 
   ngOnInit(): void {
     this.dataloaded = false;
-    this.fileerror = false;
   }
 
   clientname = this.fb.group({
@@ -30,14 +29,11 @@ export class HealthcareComponent implements OnInit {
 
   clientinfo = new FormGroup({
     name2: new FormControl(null, [Validators.required]),
-    insuranceconame: new FormControl(null, [Validators.required]),
     ///image: new FormControl(null, [Validators.required])
   })
 
   PickedFile(event: Event){
-    this.file = (event.target as HTMLInputElement).files![0];
-    this.type = this.file.type;  
-    console.log(this.type);
+    this.file = (event.target as HTMLInputElement).files![0];  
     //this.clientinfo.patchValue({image: file});
     //this.clientinfo.get('file1')?.updateValueAndValidity();
     const reader = new FileReader();
@@ -70,20 +66,29 @@ export class HealthcareComponent implements OnInit {
     //   console.log(res);
     // })
     // this.clientinfo.reset();
-    if (this.type != 'application/pdf')
-    {
-      this.clientinfo.reset();
-      this.fileerror = true;
-    }     
-    else 
-    {
-      this.fileerror = false;
-      this.clientservice.sendClient(this.clientinfo.value, this.file).subscribe((res: any) => {
+    this.clientservice.sendClient(this.clientinfo.value, this.file).subscribe((res: any) => {
       if (res.body){
         console.log("Success.");
       }
     })
-    }
     this.clientinfo.reset();
+  }
+
+
+  toggleDisplayDiv(a :number):void{
+    if(this.isShowDiv == a){
+      this.temp += 1
+      
+    }
+    else{
+      this.temp = 0 
+    }
+    this.isShowDiv = a
+    //this.temp = a
+    if(this.temp > 0){
+      this.isShowDiv = 0
+      this.temp= 0
+    }
+    this.dataloaded=false
   }
 }

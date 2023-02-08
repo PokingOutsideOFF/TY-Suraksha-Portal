@@ -1,37 +1,50 @@
 <app-header></app-header>
-<mat-radio-group [(ngModel)]="selectedValue">
-    <mat-radio-button [value]="0">Choose to view status of existing request</mat-radio-button>
-    <mat-radio-button [value]="1">Choose to file a new request</mat-radio-button>
-</mat-radio-group>
+<div class="full">
+
+  <!-- <mat-radio-group [(ngModel)]="selectedValue"> -->
+    <!-- <mat-radio-button [value]="0">Choose to view status of existing request</mat-radio-button><br>
+      <mat-radio-button [value]="1">Choose to file a new request</mat-radio-button> -->
+      <!-- </mat-radio-group> -->
+  <button class="opt" (click)="toggleDisplayDiv(2)">File a new request</button>
+  <button class="opt" (click)="toggleDisplayDiv(1)">View status of existing record</button><br>
   
-<div *ngIf="selectedValue === 0">
-  <form [formGroup]="clientname" (ngSubmit)="nameSubmit()" action="/healthcaredisplay" method="post">
-    <label for="clientname1">Enter name of patient:</label>
-    <input type="text" id="clientname1" formControlName="name1" required>
-    <input type="submit" value="Submit" [disabled]="!clientname.valid">
-    <div class="image-preview" *ngIf="dataloaded == true"> <!--*ngIf="returnedinfo.filepath"-->
-      <h1>You are in image preview.</h1>
-      <h1>{{returnedinfo.name}}</h1>
-      <!-- <img src="{{returnedinfo.filepath}}" alt="Identity file image"/> -->
-      <p>{{returnedinfo.status}}</p>
-      <p>{{returnedinfo.remittance_advice}}</p>
-      <!-- <img src="Clientimages\images\screenshot_(12).png"> -->
+
+  <mat-card>
+    <mat-card-content>
+      <div *ngIf="isShowDiv === 0">
+        <p class="noOption">Please choose an option</p>
+      </div>
+
+      <div *ngIf="isShowDiv === 1">
+        <form [formGroup]="clientname" (ngSubmit)="nameSubmit()" action="/healthcaredisplay" method="post">
+          <label for="clientname1">Enter name of patient:  </label>
+          <input type="text" id="clientname1" formControlName="name1" required><br><br>
+          <!-- <input type="submit" value="Submit" [disabled]="!clientname.valid"> -->
+          <button mat-stroked-button type="submit" [disabled]="!clientname.valid" class="submitButton">Submit</button>
+          <div class="image-preview" *ngIf="dataloaded == true"> <!--*ngIf="returnedinfo.filepath"-->
+            <h3 style="font-weight:bold;">You are in image preview.</h3>
+            <h3>Patient Name: {{returnedinfo.name}}</h3>
+            <img src="{{returnedinfo.filepath}}" alt="Identity file image"/>
+            <img src="Clientimages\images\screenshot_(12).png">
+        </div>
+      </form>
     </div>
-  </form>
+    
+    <div *ngIf="isShowDiv === 2">
+      <form [formGroup]="clientinfo" (ngSubmit)="newClient()" action="/healthcarenew" method="post" enctype="multipart/form-data">
+        <label for="clientName2">Enter name of patient: </label>
+        <input type="text" id="clientName2" formControlName="name2" required><br><br>
+        <!-- <label for="identifyfile">Upload file for identity confirmation(Image)</label>
+          <input type="file" id="identifyfile" formControlName="file1" required (change)="PickedFile($event)"> -->
+          <button mat-stroked-button type="button" (click)="filepicker.click() " class="uploadButton">Upload file for identity confirmation (Image)</button>
+          <input type="file" #filepicker (change)="PickedFile($event)" name="file"><br><br>
+          <!-- <input type="submit" value="Submit" [disabled]="!clientinfo.valid">  -->
+          <button mat-stroked-button type="submit" [disabled]="!clientinfo.valid" class="submitButton">Submit</button>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+
 </div>
-<div *ngIf="selectedValue === 1">
-  <form [formGroup]="clientinfo" (ngSubmit)="newClient()" action="/healthcarenew" method="post" enctype="multipart/form-data">
-    <label for="clientName2">Enter name of patient:</label>
-    <input type="text" id="clientName2" formControlName="name2" required>
-    <!-- <label for="identifyfile">Upload file for identity confirmation(Image)</label>
-    <input type="file" id="identifyfile" formControlName="file1" required (change)="PickedFile($event)"> -->
-    <button mat-stroked-button type="button" (click)="filepicker.click()">
-      Upload file for identity confirmation(Image)
-    </button>
-    <input type="file" #filepicker (change)="PickedFile($event)" name="file">
-    <label for="insuranceconame">Enter name of the insurance company:</label>
-    <input type="text" id="insuranceconame" formControlName="insuranceconame">
-    <input type="submit" value="submit" [disabled]="!clientinfo.valid"> 
-  </form>
-  <div class="alert alert-danger" *ngIf="fileerror">Allowed filetype is pdf only.</div>
-</div>
+  
